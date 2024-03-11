@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+
+{% block title %}ToDo{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center mb-4">Todo App</h1>
+    
+    <form method="post" class="row g-3">
+        {% csrf_token %}
+      <div class="col">
+        {{ form.as_p }}
+        <div class="col-auto">
+            <button class="btn btn-primary" id="addTaskBtn">Add Task</button>
+          </div>
+      </div>
+    </form>
+    
+    <div class="container mt-5 bg-light" id="taskList">
+        <table class="table striped shadow">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for todo in todos %}
+              <tr>
+                <th scope="row">{{ todo.id }}</th>
+                <td>{% if todo.completed %}<s>{{ todo.title }}</s>{% else %}{{ todo.title }}{% endif %}</td>
+                <td>{% if todo.completed %}<s>{{ todo.description }}</s>{% else %}{{ todo.description }}{% endif %}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+    </div>
+{% endblock content %}
+
