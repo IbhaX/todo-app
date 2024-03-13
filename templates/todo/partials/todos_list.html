@@ -1,19 +1,57 @@
-<table class="table striped shadow">
+<table class="table striped shadow" id="tasklist">
     <thead>
       <tr>
         <th scope="col">ID</th>
         <th scope="col">Title</th>
         <th scope="col">Description</th>
         <th scope="col">Status</th>
+        <th scope="col">Action</th>
       </tr>
     </thead>
     <tbody>
       {% for todo in todos %}
       <tr>
         <th scope="row">{{ todo.id }}</th>
-        <td>{{ todo.title }}</td>
-        <td>{{ todo.description }}</td>
-        <td>{{ todo.status }}</td>
+        <td>
+          {% if todo.completed %}
+            <s>{{ todo.title }}</s>
+          {% else %}
+            {{ todo.title }}
+          {% endif %}
+        </td>
+        <td>
+          {% if todo.completed %}
+           <s>{{ todo.description }}</s>
+          {% else %}
+            {{ todo.description }}
+          {% endif %}
+        </td>
+        <td>
+          {% if not todo.completed %}
+            <button class="btn btn-primary"
+            hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+            hx-post={% url "complete" todo.id %}
+            hx-target="#tasklist"
+            >Complete</button>
+          {% else %}
+            Completed
+          {% endif %}
+        </td>
+        <td>
+          {% if not todo.completed %}
+            <button class="btn btn-primary"
+            hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+            hx-post={% url "complete" todo.id %}
+            hx-target="#tasklist"
+            >Delete</button>
+          {% else %}
+            <button class="btn btn-primary"
+            hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+            hx-post={% url "complete" todo.id %}
+            hx-target="#tasklist"
+            >Edit</button>
+          {% endif %}
+        </td>
       </tr>
       {% endfor %}
     </tbody>

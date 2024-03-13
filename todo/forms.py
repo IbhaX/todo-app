@@ -5,7 +5,7 @@ from todo.models import Todo
 class TodoForm(forms.ModelForm):
     class Meta:
         model = Todo
-        fields = ["title", "description", "completed"]
+        fields = ["title", "description"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -17,5 +17,3 @@ class TodoForm(forms.ModelForm):
         self.fields["description"].widget.attrs["placeholder"] = "Description"
         self.fields["description"].label = ""
         
-        self.fields["completed"].widget.attrs["class"] = "checkbox"
-        self.fields["completed"].label = "Completed"
